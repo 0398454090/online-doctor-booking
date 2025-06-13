@@ -1,0 +1,29 @@
+'use strict';
+const {
+    Model
+} = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
+    class History extends Model {
+        /**
+         * Helper method for defining associations.
+         */
+        static associate(models) {
+            // Nếu cần liên kết với bảng User:
+            // History.belongsTo(models.User, { foreignKey: 'patientId', as: 'patient' });
+            // History.belongsTo(models.User, { foreignKey: 'doctorId', as: 'doctor' });
+        }
+    }
+
+    History.init({
+        patientId: DataTypes.INTEGER,
+        doctorId: DataTypes.INTEGER,
+        description: DataTypes.TEXT,
+        files: DataTypes.TEXT
+    }, {
+        sequelize,
+        modelName: 'History',
+    });
+
+    return History;
+};

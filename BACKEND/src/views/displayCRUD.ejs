@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f6f8;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        caption {
+            caption-side: top;
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 15px 0;
+            color: #333;
+            text-align: center;
+        }
+        
+        thead {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        
+        thead th {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        
+        tbody td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+        
+        tbody tr:hover {
+            background-color: #f1faff;
+        }
+        
+        .action-buttons a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        
+        .edit-btn {
+            background-color: #28a745;
+            /* green */
+        }
+        
+        .edit-btn:hover {
+            background-color: #218838;
+        }
+        
+        .delete-btn {
+            background-color: #dc3545;
+            /* red */
+        }
+        
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        /* Responsive table */
+        
+        @media screen and (max-width: 768px) {
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tbody tr {
+                margin-bottom: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 10px;
+            }
+            tbody td {
+                border: none;
+                padding-left: 50%;
+                position: relative;
+                text-align: left;
+            }
+            tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                top: 12px;
+                font-weight: bold;
+                white-space: nowrap;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <table>
+        <caption>User Information Table</caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < dataTable.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= dataTable[i].id %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].email %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].firstName %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].lastName %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].address %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].gender ? 'Male' : 'Female' %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].phonenumber %>
+                    </td>
+                    <td>
+                        <%= dataTable[i].image || 'N/A' %>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/edit-crud?id=<%= dataTable[i].id %>" class="edit-btn">Edit</a>
+                            <a href="/delete-crud?id=<%= dataTable[i].id %>" class="delete-btn">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+</body>
+
+</html>
