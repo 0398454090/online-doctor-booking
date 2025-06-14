@@ -10,7 +10,7 @@ let handleUserLogin = async(email, password) => {
             if (isExist) {
                 let user = await db.User.findOne({
                     where: { email: email },
-                    attributes: ['email', 'password', 'roleId']
+                    attributes: ['id', 'email', 'password', 'roleId']
                 });
 
                 if (user) {
@@ -40,6 +40,7 @@ let handleUserLogin = async(email, password) => {
     });
 };
 
+
 let checkUserEmail = (userEmail) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -56,8 +57,43 @@ let checkUserEmail = (userEmail) => {
         }
     });
 };
+let getAllUsers = (userId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let users = [];
+            if (!userId) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Missing required parameter: id'
+                });
+            } else if (userId === 'ALL') {
+                users = await db.User.findAll({
+                    attributes: { exclude: ['password'] }
+                });
+            } else {
+                let user = await db.User.findOne({
+                    where: { id: userId },
+                    attributes: { exclude: ['password'] }
+                });
+                if (user) {
+                    users.push(user); // chuyển thành array
+                }
+            }
+
+            resolve({
+                errCode: 0,
+                errMessage: 'OK',
+                users: users
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
+
 
 module.exports = {
     handleUserLogin: handleUserLogin,
-    checkUserEmail: checkUserEmail
+    checkUserEmail: checkUserEmail,
+    getAllUsers: getAllUsers
 };
