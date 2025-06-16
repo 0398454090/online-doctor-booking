@@ -17,9 +17,9 @@ let createNewUser = async(data) => {
             positionId: data.positionId,
             image: data.image
         });
-        return 'Create a new user successfully!';
+
     } catch (error) {
-        throw error;
+        reject(error);
     }
 };
 
