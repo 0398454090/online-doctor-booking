@@ -1,22 +1,130 @@
 @import "../../styles/common.scss";
+// Biến màu chủ đạo
+$primary-color: #1976d2;
+$text-color: #1e1e1e;
+$menu-bg: rgba(255, 255, 255, 0.1);
+$menu-hover-bg: rgba(255, 255, 255, 0.25);
 .header-container {
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 99;
     display: flex;
     justify-content: space-between;
-    background-color: $colormain;
-    color: $common-text-color;
-    height: 40px;
-    position: relative;
-    .btn-logout {
-        color: $common-text-color;
-        line-height: 40px;
-        height: 40px;
-        padding: 0 10px;
-        &:hover {
-            background-color: darken($colormain, 5);
+    align-items: center;
+    padding: 0 24px;
+    height: 43px;
+    background: linear-gradient(90deg, #1976d2, #42a5f5);
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.4);
+    color: #fff;
+    border-bottom: none;
+    transition: all 0.3s ease;
+    // Thanh menu
+    .header-tabs-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        .menu-item {
+            color: $text-color;
+            font-size: 15px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            background-color: $menu-bg;
+            transition: all 0.3s ease;
+            &:hover {
+                background-color: $menu-hover-bg;
+                color: $primary-color;
+                transform: translateY(-1px);
+            }
+            &.active {
+                background: linear-gradient(90deg, $primary-color, lighten($primary-color, 15%));
+                color: #fff;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
         }
-        i {
-            font-size: $base-size + 1px;
+    }
+    // Khu vực ngôn ngữ + logout
+    .languages {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        .wellcome {
+            font-size: 14px;
+            font-weight: 500;
+            color: darken($text-color, 10%);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
+        .language-vi,
+        .language-en {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: $menu-bg;
+            color: $text-color;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+                background-color: $menu-hover-bg;
+                color: $primary-color;
+            }
+            &.active {
+                background-color: #fff;
+                color: $primary-color;
+                font-weight: bold;
+                border: 1px solid #ccc;
+                box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+            }
+        }
+        .btn-logout {
+            color: $text-color;
+            background: transparent;
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+                background-color: rgba(255, 0, 0, 0.1);
+                color: red;
+                transform: rotate(-10deg);
+                box-shadow: 0 0 6px rgba(255, 0, 0, 0.2);
+            }
+            i {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+// Responsive thiết kế đẹp cho tablet/mobile
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        height: auto;
+        padding: 10px 16px;
+        .header-tabs-container {
+            flex-wrap: wrap;
+            justify-content: center;
+            .menu-item {
+                margin: 6px 4px;
+            }
+        }
+        .languages {
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            .wellcome {
+                display: none;
+            }
+        }
+    }
+    .content-wrapper {
+        margin-top: 70px;
     }
 }

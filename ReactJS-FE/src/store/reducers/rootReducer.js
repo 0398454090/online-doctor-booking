@@ -14,16 +14,27 @@ const persistCommonConfig = {
     stateReconciler: autoMergeLevel2,
 };
 
-
-
 const userPersistConfig = {
     ...persistCommonConfig,
     key: 'user',
-    whitelist: ['isLoggedIn', 'userInfo ']
+    whitelist: ['isLoggedIn', 'userInfo'],
+};
+
+const appPersistConfig = {
+    ...persistCommonConfig,
+    key: 'app',
+    whitelist: ['language'],
+};
+
+const adminPersistConfig = {
+    ...persistCommonConfig,
+    key: 'admin',
+    whitelist: ['genders', 'positions', 'roles'], // nếu muốn lưu persist
 };
 
 export default (history) => combineReducers({
     router: connectRouter(history),
     user: persistReducer(userPersistConfig, userReducer),
-    app: appReducer
-})
+    app: persistReducer(appPersistConfig, appReducer),
+    admin: persistReducer(adminPersistConfig, adminReducer), // <-- Thêm adminReducer vào đây
+});

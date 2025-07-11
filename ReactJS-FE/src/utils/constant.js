@@ -1,15 +1,16 @@
 export const path = {
     HOME: '/',
     LOGIN: '/login',
+    HOMEPAGE: '/home',
     LOG_OUT: '/logout',
     SYSTEM: '/system'
 };
 
-export const languages = {
+export const LANGUAGES = {
     VI: 'vi',
     EN: 'en'
 };
- 
+
 export const manageActions = {
     ADD: "ADD",
     EDIT: "EDIT",

@@ -16,13 +16,17 @@
         }
         th,
         td {
-            text-align: left;
             padding: 10px;
             border-bottom: 1px solid #ddd;
+            vertical-align: middle;
         }
         th {
             background-color: #f7f7f7;
             color: #333;
+            text-align: center;
+        }
+        td.text-center {
+            text-align: center;
         }
         tr:hover {
             background-color: #f1f1f1;
@@ -30,6 +34,74 @@
         .btn {
             font-size: 14px;
             padding: 5px 10px;
+        }
+    }
+}
+
+.modal-user-container {
+    max-width: 600px;
+    .modal-header {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        font-size: 20px;
+        position: relative;
+        /* để căn chỉnh nút close */
+        padding-right: 3rem;
+        /* tránh nút close sát mép */
+    }
+    .modal-header .close {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        /* cách lề phải 1rem */
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: #000;
+        opacity: 0.6;
+        border: none;
+        background: transparent;
+        &:hover {
+            color: #000;
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+    .user-form {
+        .form-group {
+            margin-bottom: 1rem;
+            label {
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+                display: inline-block;
+            }
+            .form-control {
+                border-radius: 8px;
+                padding: 0.5rem 0.75rem;
+                font-size: 14px;
+                border: 1px solid #ced4da;
+                &:focus {
+                    border-color: #80bdff;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                }
+            }
+        }
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            .form-group {
+                flex: 1;
+            }
+        }
+    }
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        /* nút về bên phải */
+        gap: 10px;
+        /* khoảng cách giữa các nút */
+        button {
+            width: 100px;
         }
     }
 }

@@ -12,8 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         firstName: DataTypes.STRING,
         lastName: DataTypes.STRING,
         address: DataTypes.STRING,
-        gender: DataTypes.BOOLEAN,
-        roleid: DataTypes.STRING, // hoặc roleId nếu bạn muốn camelCase
+        gender: DataTypes.STRING,
+        roleId: DataTypes.STRING, // hoặc roleId  nếu bạn muốn camelCase
         phonenumber: DataTypes.STRING,
         positionId: DataTypes.STRING,
         image: DataTypes.STRING

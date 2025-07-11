@@ -1,0 +1,229 @@
+// HomePage.scss
+.section-common {
+    padding: 40px 0;
+    background-color: #ffffff; // Màu nền mặc định trắng, sạch sẽ
+    position: relative;
+    &.odd-section {
+        background-color: #f4f9fc; // Màu xanh nhạt xen kẽ, tạo điểm nhấn nhẹ nhàng
+    }
+    &.even-section {
+        background-color: #f4f9fc; // Màu trắng sạch cho section xen kẽ
+    }
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        margin-bottom: 20px;
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        .btn-view-more {
+            background-color: #3b82f6;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            &:hover {
+                background-color: #1e40af;
+            }
+        }
+    }
+    .section-content {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 40px;
+        position: relative;
+        .img-customize {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            img {
+                width: 100%;
+                height: 220px;
+                object-fit: cover;
+                border-radius: 10px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 10px;
+                transition: transform 0.3s ease;
+            }
+            h3 {
+                font-size: 16px;
+                color: #333;
+                font-weight: 500;
+                margin-top: 10px;
+            }
+            &:hover img {
+                transform: scale(1.05);
+            }
+        }
+        // Slick Carousel Customization
+        .slick-slide>div {
+            padding: 10px;
+        }
+        .custom-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border-radius: 50%;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+            &.prev {
+                left: -20px;
+            }
+            &.next {
+                right: -20px;
+            }
+        }
+        // Hide default slick arrows
+        .slick-prev::before,
+        .slick-next::before {
+            display: none;
+        }
+    }
+}
+
+.about-section {
+    .about-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 0 40px;
+        .about-left {
+            flex: 1 1 50%;
+            h3 {
+                font-size: 20px;
+                color: #0a3d62;
+                margin-bottom: 10px;
+            }
+            p {
+                font-size: 15px;
+                line-height: 1.7;
+                margin-bottom: 20px;
+            }
+        }
+        .about-right {
+            flex: 1 1 45%;
+            .video-wrapper {
+                position: relative;
+                padding-top: 56.25%; // 16:9 aspect ratio
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+/* Footer styles */
+
+.home-footer {
+    background-color: #f4f9fc;
+    padding: 40px 20px 20px;
+    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+    border-top: 1px solid #ddd;
+    .footer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 30px;
+        .footer-section {
+            flex: 1 1 300px;
+            min-width: 250px;
+            h3,
+            h4 {
+                font-size: 18px;
+                color: #007bff;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            ul {
+                list-style: none;
+                padding: 0;
+                li {
+                    margin-bottom: 8px;
+                    a {
+                        font-size: 14px;
+                        color: #444;
+                        text-decoration: none;
+                        transition: color 0.2s;
+                        &:hover {
+                            color: #007bff;
+                        }
+                    }
+                }
+            }
+            .social-icons {
+                display: flex;
+                gap: 10px;
+                a {
+                    width: 36px;
+                    height: 36px;
+                    background-color: #e0e0e0;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #007bff;
+                    transition: background-color 0.3s;
+                    &:hover {
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .footer-bottom {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 13px;
+        color: #666;
+        padding-top: 15px;
+        border-top: 1px solid #ccc;
+    }
+    @media (max-width: 768px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .footer-section {
+            width: 100%;
+        }
+    }
+}

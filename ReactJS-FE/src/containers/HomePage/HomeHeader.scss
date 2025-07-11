@@ -1,0 +1,220 @@
+.home-header-container {
+    position: fixed; // Giữ cố định trên cùng
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 1000; // Đảm bảo nằm trên các thành phần khác
+    background-color: #f4f9fc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    .home-header-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        .left-content {
+            width: 25%;
+            display: flex;
+            align-items: center;
+            .header-logo {
+                background: url('../../assets/images/BOOKING_CARE.png') center center no-repeat;
+                background-size: cover;
+                width: 100%;
+                height: 100%;
+                display: block;
+            }
+            i {
+                font-size: 25px;
+                color: #555;
+                cursor: pointer;
+                padding-left: 40px;
+            }
+        }
+        .center-content {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .child-content {
+                display: flex;
+                flex-direction: column;
+                font-size: 16px;
+                b {
+                    color: #333;
+                }
+                .sub-title {
+                    font-size: 14px;
+                    color: #666;
+                }
+            }
+        }
+        .right-content {
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 40px;
+            gap: 12px;
+            .support {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                color: #555;
+                cursor: pointer;
+                i {
+                    margin-right: 5px;
+                    font-size: 16px;
+                }
+                &:hover {
+                    color: #007bff;
+                }
+            }
+            .language-vn span,
+            .language-en span {
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                cursor: pointer;
+                border-radius: 4px;
+                font-weight: 500;
+                font-size: 14px;
+                background-color: #fff;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+                &:hover {
+                    background-color: #b2ebf2;
+                }
+            }
+            .language-vn span.active,
+            .language-en span.active {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+        }
+    }
+}
+
+.home-header-banner {
+    background-image: url('../../assets/images/header-background.png');
+    background-size: cover;
+    background-position: center;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    .content-up {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        .title1 {
+            font-size: 30px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .title2 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-top: 110px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+        }
+        .search {
+            margin-top: 20px;
+            background: #fdd835;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            transition: 0.3s;
+            &:hover {
+                background: #ffee58;
+            }
+            input {
+                border: none;
+                outline: none;
+                background: transparent;
+                margin-left: 10px;
+                width: 480px;
+                font-size: 16px;
+                color: #212529;
+                &::placeholder {
+                    color: #666;
+                }
+            }
+            i {
+                color: gray;
+                font-size: 18px;
+            }
+        }
+    }
+    .content-down {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding-bottom: 10px;
+        background-image: linear-gradient(to top, rgba(249, 249, 249, 0.5), transparent);
+        .options {
+            display: flex;
+            height: 45%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 960px;
+            .option-child {
+                width: 13.66%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: black;
+                cursor: pointer;
+                text-align: center;
+                transition: transform 0.3s ease;
+                .icon-child {
+                    font-size: 30px;
+                    background-color: white;
+                    color: #45c3d2;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 10px;
+                    transition: 0.3s;
+                }
+                .text-child {
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+                &:hover {
+                    transform: translateY(-3px);
+                    .icon-child {
+                        background-color: #45c3d2;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .home-header-banner .content-down .options .option-child {
+        width: 33.33%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-header-banner .content-down .options .option-child {
+        width: 50%;
+    }
+}
