@@ -8,7 +8,6 @@
         "choose-good-doctor": "Choose a good doctor",
         "examination-package": "Examination package",
         "general-health-check": "General health check",
-
         "support": "Support",
         "welcome": "Welcome"
     },
@@ -21,7 +20,6 @@
         "medical-test": "Medical test",
         "mental-health": "Mental health",
         "dental-exam": "Dental examination",
-
         "search-placeholder": "Search for a specialty"
     },
     "homepage": {
@@ -32,7 +30,6 @@
         "our-vision": "Our Vision",
         "vision-description": "To become the leading private clinic..."
     },
-
     "menu": {
         "system": {
             "header": "System",
@@ -61,15 +58,13 @@
         }
     },
     "manage-user": {
-        "title": "Add New User",
+        "title": "User Management System",
         "form": {
             "loginInfo": "Login Information",
             "personalInfo": "Personal Information",
             "systemInfo": "System Information",
-            "avatarSection": "Avatar Section",
-
+            "avatarSection": "Avatar",
             "checkBeforeSave": "Please check the information before saving",
-
             "email": "Email",
             "password": "Password",
             "firstName": "First Name",
@@ -77,29 +72,34 @@
             "phoneNumber": "Phone Number",
             "address": "Address",
             "gender": "Gender",
+            "position": "Position",
+            "role": "Role",
+            "avatar": "Avatar",
+            "saveButton": "Save Information",
+            "clearButton": "Clear Form",
+            "cancel": "Cancel",
+            "dragImageHere": "Drag and drop image here or click to upload",
+            "selectGender": "Select Gender",
+            "selectPosition": "Select Position",
+            "selectRole": "Select Role",
+            "saving": "Saving...",
             "genderOptions": {
                 "choose": "Choose...",
                 "male": "Male",
                 "female": "Female",
                 "other": "Other"
             },
-            "position": "Position",
             "positionOptions": {
                 "choose": "Choose...",
                 "doctor": "Doctor",
                 "manager": "Manager",
                 "patient": "Patient"
             },
-            "role": "Role",
             "roleOptions": {
                 "choose": "Choose...",
                 "admin": "Admin",
                 "user": "User"
-            },
-            "avatar": "Avatar",
-            "saveButton": "Save",
-            "cancel": "Cancel",
-            "dragImageHere": "Drag image here"
+            }
         }
     }
 }

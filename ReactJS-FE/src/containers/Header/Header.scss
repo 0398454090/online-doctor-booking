@@ -1,130 +1,275 @@
 @import "../../styles/common.scss";
-// Biến màu chủ đạo
-$primary-color: #1976d2;
-$text-color: #1e1e1e;
-$menu-bg: rgba(255, 255, 255, 0.1);
-$menu-hover-bg: rgba(255, 255, 255, 0.25);
+// CSS Variables for Clean Medical White Theme
+:root {
+    --header-primary: #ffffff;
+    --header-secondary: #f8f9fa;
+    --header-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    --header-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
+    --text-muted: #7f8c8d;
+    --accent-color: #3498db;
+    --accent-hover: #2980b9;
+    --bg-glass: rgba(255, 255, 255, 0.95);
+    --bg-glass-hover: rgba(52, 152, 219, 0.1);
+    --bg-glass-active: rgba(52, 152, 219, 0.15);
+    --border-color: #e9ecef;
+    --border-color-hover: #3498db;
+    --border-radius: 12px;
+    --border-radius-small: 8px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --header-height: 70px;
+}
+
 .header-container {
+    position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
-    z-index: 99;
+    height: var(--header-height);
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
-    height: 43px;
-    background: linear-gradient(90deg, #1976d2, #42a5f5);
-    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.4);
-    color: #fff;
-    border-bottom: none;
-    transition: all 0.3s ease;
-    // Thanh menu
+    padding: 0 2rem;
+    background: var(--header-gradient);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--header-shadow);
+    border-bottom: 2px solid var(--border-color);
+    transition: var(--transition);
+    // Navigation Menu Section
     .header-tabs-container {
         display: flex;
         align-items: center;
-        gap: 12px;
-        .menu-item {
-            color: $text-color;
-            font-size: 15px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            background-color: $menu-bg;
-            transition: all 0.3s ease;
-            &:hover {
-                background-color: $menu-hover-bg;
-                color: $primary-color;
-                transform: translateY(-1px);
-            }
-            &.active {
-                background: linear-gradient(90deg, $primary-color, lighten($primary-color, 15%));
-                color: #fff;
-                font-weight: 600;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            }
-        }
+        gap: 0.5rem;
+        flex: 1;
     }
-    // Khu vực ngôn ngữ + logout
-    .languages {
+    // User Controls Section
+    .header-controls {
         display: flex;
         align-items: center;
-        gap: 12px;
-        .wellcome {
-            font-size: 14px;
-            font-weight: 500;
-            color: darken($text-color, 10%);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-        .language-vi,
-        .language-en {
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            background-color: $menu-bg;
-            color: $text-color;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            &:hover {
-                background-color: $menu-hover-bg;
-                color: $primary-color;
-            }
-            &.active {
-                background-color: #fff;
-                color: $primary-color;
-                font-weight: bold;
-                border: 1px solid #ccc;
-                box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
-            }
-        }
-        .btn-logout {
-            color: $text-color;
-            background: transparent;
-            height: 40px;
-            width: 40px;
+        gap: 1.5rem;
+        // User Welcome Section
+        .user-welcome {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-glass);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
             &:hover {
-                background-color: rgba(255, 0, 0, 0.1);
-                color: red;
-                transform: rotate(-10deg);
-                box-shadow: 0 0 6px rgba(255, 0, 0, 0.2);
+                border-color: var(--border-color-hover);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.1);
             }
-            i {
-                font-size: 16px;
+            .user-avatar {
+                i {
+                    font-size: 1.75rem;
+                    color: var(--accent-color);
+                    filter: drop-shadow(0 2px 4px rgba(52, 152, 219, 0.2));
+                }
+            }
+            .welcome-text {
+                display: flex;
+                flex-direction: column;
+                gap: 0.125rem;
+                .greeting {
+                    font-size: 0.75rem;
+                    color: var(--text-muted);
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                .user-name {
+                    font-size: 0.95rem;
+                    color: var(--text-primary);
+                    font-weight: 600;
+                }
+            }
+        }
+        // Language Switcher
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-glass);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            &:hover {
+                border-color: var(--border-color-hover);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 15px rgba(52, 152, 219, 0.1);
+            }
+            .language-label {
+                i {
+                    font-size: 1rem;
+                    color: var(--accent-color);
+                    margin-right: 0.25rem;
+                }
+            }
+            .language-options {
+                display: flex;
+                gap: 0.25rem;
+                .language-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.375rem;
+                    padding: 0.5rem 0.875rem;
+                    background: transparent;
+                    border: 2px solid var(--border-color);
+                    border-radius: var(--border-radius-small);
+                    color: var(--text-secondary);
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: var(--transition);
+                    .flag-icon {
+                        font-size: 1rem;
+                    }
+                    &:hover {
+                        background: var(--bg-glass-hover);
+                        color: var(--text-primary);
+                        border-color: var(--border-color-hover);
+                        transform: translateY(-1px);
+                        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
+                    }
+                    &.active {
+                        background: var(--bg-glass-active);
+                        color: var(--accent-color);
+                        border-color: var(--accent-color);
+                        font-weight: 600;
+                        box-shadow: 0 2px 12px rgba(52, 152, 219, 0.2);
+                    }
+                }
+            }
+        }
+        // Logout Section
+        .logout-section {
+            .btn-logout {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.25rem;
+                background: var(--bg-glass);
+                border: 2px solid var(--border-color);
+                border-radius: var(--border-radius);
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: var(--transition);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                i {
+                    font-size: 1rem;
+                    color: #e74c3c;
+                }
+                .logout-text {
+                    font-size: 0.85rem;
+                }
+                &:hover {
+                    background: rgba(231, 76, 60, 0.08);
+                    border-color: #e74c3c;
+                    color: #e74c3c;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.15);
+                }
             }
         }
     }
 }
 
-// Responsive thiết kế đẹp cho tablet/mobile
-@media (max-width: 768px) {
+// Responsive Design
+@media (max-width: 1200px) {
     .header-container {
-        flex-direction: column;
-        height: auto;
-        padding: 10px 16px;
-        .header-tabs-container {
-            flex-wrap: wrap;
-            justify-content: center;
-            .menu-item {
-                margin: 6px 4px;
-            }
-        }
-        .languages {
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 8px;
-            .wellcome {
-                display: none;
+        padding: 0 1.5rem;
+        .header-controls {
+            gap: 1rem;
+            .user-welcome .welcome-text {
+                .greeting {
+                    display: none;
+                }
             }
         }
     }
-    .content-wrapper {
-        margin-top: 70px;
+}
+
+@media (max-width: 768px) {
+     :root {
+        --header-height: 60px;
+    }
+    .header-container {
+        padding: 0 1rem;
+        flex-wrap: wrap;
+        height: auto;
+        min-height: var(--header-height);
+        .header-tabs-container {
+            order: 2;
+            width: 100%;
+            justify-content: center;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .header-controls {
+            order: 1;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            .user-welcome {
+                padding: 0.375rem 0.75rem;
+                .welcome-text .greeting {
+                    display: none;
+                }
+                .user-name {
+                    font-size: 0.8rem;
+                }
+            }
+            .language-switcher {
+                padding: 0.375rem;
+                .language-options .language-btn {
+                    padding: 0.25rem 0.5rem;
+                    font-size: 0.75rem;
+                }
+            }
+            .logout-section .btn-logout {
+                padding: 0.5rem 0.75rem;
+                .logout-text {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .header-container {
+        padding: 0 0.75rem;
+        .header-controls {
+            gap: 0.5rem;
+            .user-welcome {
+                .user-avatar i {
+                    font-size: 1.5rem;
+                }
+                .welcome-text .user-name {
+                    font-size: 0.75rem;
+                }
+            }
+            .language-switcher .language-options {
+                flex-direction: column;
+                gap: 0.125rem;
+                .language-btn {
+                    width: 100%;
+                    justify-content: center;
+                }
+            }
+        }
     }
 }

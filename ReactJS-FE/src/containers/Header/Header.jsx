@@ -17,31 +17,59 @@ class Header extends Component {
         console.log('check userInfo in header: ', userInfo);
         return (
             <div className="header-container">
-                {/* thanh navigator */}
+                {/* Navigation Menu */}
                 <div className="header-tabs-container">
                     <Navigator menus={adminMenu} />
                 </div>
 
-                <div className='languages'>
-                    <span className='wellcome'>
-                        <FormattedMessage id="homeheader.welcome" />, {userInfo && userInfo.firstName ? userInfo.firstName : ''}
-                    </span>
-                    <span
-                        className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}
-                        onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
-                    >
-                        VN
-                    </span>
-                    <span
-                        className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}
-                        onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
-                    >
-                        EN
-                    </span>
+                {/* User Info & Controls */}
+                <div className="header-controls">
+                    {/* User Welcome */}
+                    <div className="user-welcome">
+                        <div className="user-avatar">
+                            <i className="fas fa-user-circle"></i>
+                        </div>
+                        <div className="welcome-text">
+                            <span className="greeting">
+                                <FormattedMessage id="homeheader.welcome" />
+                            </span>
+                            <span className="user-name">
+                                {userInfo && userInfo.firstName ? userInfo.firstName : 'Admin'}
+                            </span>
+                        </div>
+                    </div>
 
-                    {/* nút logout */}
-                    <div className="btn btn-logout" onClick={processLogout} title='Logout'>
-                        <i className="fas fa-sign-out-alt"></i>
+                    {/* Language Switcher */}
+                    <div className="language-switcher">
+                        <div className="language-label">
+                            <i className="fas fa-globe"></i>
+                        </div>
+                        <div className="language-options">
+                            <button
+                                className={language === LANGUAGES.VI ? 'language-btn active' : 'language-btn'}
+                                onClick={() => this.handleChangeLanguage(LANGUAGES.VI)}
+                                title="Tiếng Việt"
+                            >
+                                <span className="flag-icon">🇻🇳</span>
+                                <span>VN</span>
+                            </button>
+                            <button
+                                className={language === LANGUAGES.EN ? 'language-btn active' : 'language-btn'}
+                                onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}
+                                title="English"
+                            >
+                                <span className="flag-icon">🇺🇸</span>
+                                <span>EN</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Logout Button */}
+                    <div className="logout-section">
+                        <button className="btn-logout" onClick={processLogout} title="Logout">
+                            <i className="fas fa-sign-out-alt"></i>
+                            <span className="logout-text">Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>

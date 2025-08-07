@@ -15,3 +15,4 @@ export const changeLanguageApp = (language) => {
         language
     };
 };
+

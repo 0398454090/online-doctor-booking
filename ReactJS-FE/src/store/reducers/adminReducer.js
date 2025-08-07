@@ -8,7 +8,9 @@ const initialState = {
     isLoadingPosition: false,
     isLoadingRole: false,
     isCreatingUser: false,
-    userError: null
+    isLoadingUsers: false,
+    userError: null,
+    users: []
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -75,8 +77,10 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isCreatingUser: false,
-                userError: null
+                userError: null,
+                users: [...state.users, action.newUser] // ✅ thêm user mới vào danh sách
             };
+
         case actionTypes.CREATE_USER_FAIL:
             return {
                 ...state,
@@ -84,6 +88,36 @@ const adminReducer = (state = initialState, action) => {
                 userError: action.error || 'Lỗi tạo user'
             };
 
+        case actionTypes.FETCH_ALL_USERS_START:
+            return {
+                ...state,
+                isLoadingUsers: true
+            };
+
+        case actionTypes.FETCH_ALL_USERS_SUCCESS:
+            return {
+                ...state,
+                users: action.users || [],
+                isLoadingUsers: false
+            };
+
+
+        case actionTypes.FETCH_ALL_USERS_FAIL:
+            return {
+                ...state,
+                users: [],
+                isLoadingUsers: false
+            };
+
+        case actionTypes.DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                users: state.users.filter(user => user.id !== action.userId) // lọc bỏ user đã xóa
+            };
+
+        case actionTypes.DELETE_USER_FAIL:
+            // Có thể xử lý lỗi nếu cần hoặc giữ nguyên state
+            return state;
         default:
             return state;
     }

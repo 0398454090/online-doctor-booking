@@ -8,11 +8,9 @@
         "choose-good-doctor": "Chọn bác sĩ giỏi",
         "examination-package": "Gói khám",
         "general-health-check": "Khám sức khỏe tổng quát",
-
         "support": "Hỗ trợ",
         "welcome": "Xin chào"
     },
-
     "banner": {
         "main-title": "NỀN TẢNG Y TẾ",
         "sub-title": "CHĂM SÓC SỨC KHỎE TOÀN DIỆN",
@@ -22,7 +20,6 @@
         "medical-test": "Xét nghiệm y học",
         "mental-health": "Sức khỏe tinh thần",
         "dental-exam": "Khám nha khoa",
-
         "search-placeholder": "Tìm chuyên khoa khám bệnh"
     },
     "homepage": {
@@ -33,9 +30,6 @@
         "our-vision": "Tầm nhìn của chúng tôi",
         "vision-description": "Trở thành phòng khám tư nhân hàng đầu trong khu vực..."
     },
-
-
-
     "menu": {
         "system": {
             "header": "Hệ thống",
@@ -61,19 +55,16 @@
             "speciality": "Chuyên khoa",
             "manage-handbook": "Quản lý cẩm nang",
             "handbook": "Cẩm nang"
-
         }
     },
     "manage-user": {
-        "title": "Thêm mới người dùng",
+        "title": "Quản lý người dùng hệ thống",
         "form": {
             "loginInfo": "Thông tin đăng nhập",
             "personalInfo": "Thông tin cá nhân",
             "systemInfo": "Thông tin hệ thống",
             "avatarSection": "Ảnh đại diện",
-
             "checkBeforeSave": "Vui lòng kiểm tra thông tin trước khi lưu",
-
             "email": "Email",
             "password": "Mật khẩu",
             "firstName": "Tên",
@@ -81,30 +72,34 @@
             "phoneNumber": "Số điện thoại",
             "address": "Địa chỉ",
             "gender": "Giới tính",
+            "position": "Chức danh",
+            "role": "Vai trò",
+            "avatar": "Ảnh đại diện",
+            "saveButton": "Lưu thông tin",
+            "clearButton": "Xóa form",
+            "cancel": "Hủy",
+            "dragImageHere": "Kéo thả ảnh vào đây hoặc nhấp để tải lên",
+            "selectGender": "Chọn giới tính",
+            "selectPosition": "Chọn chức danh",
+            "selectRole": "Chọn vai trò",
+            "saving": "Đang lưu...",
             "genderOptions": {
                 "choose": "Chọn giới tính",
                 "male": "Nam",
                 "female": "Nữ",
                 "other": "Khác"
             },
-            "position": "Chức danh",
             "positionOptions": {
                 "choose": "Chọn chức danh",
                 "doctor": "Bác sĩ",
                 "manager": "Quản lý",
                 "patient": "Bệnh nhân"
             },
-            "role": "Vai trò",
             "roleOptions": {
                 "choose": "Chọn vai trò",
                 "admin": "Admin",
                 "user": "User"
-            },
-            "avatar": "Ảnh đại diện",
-            "saveButton": "Lưu",
-            "cancel": "Hủy",
-            "dragImageHere": "Kéo thả ảnh vào đây"
+            }
         }
     }
-
 }

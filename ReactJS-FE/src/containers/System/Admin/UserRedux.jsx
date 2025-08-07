@@ -3,6 +3,7 @@
   import { connect } from 'react-redux';
   import { toast } from 'react-toastify';
   import * as actions from '../../../store/actions';
+  import TableManageUser from './TableManageUser';
 
   class UserRedux extends Component {
       constructor(props) {
@@ -24,6 +25,8 @@
           genderRedux: [],
           positionRedux: [],
           roleRedux: [],
+
+
           errors: {
               email: '',
               password: '',
@@ -59,6 +62,21 @@
         if (prevProps.roleRedux !== this.props.roleRedux) {
           console.log('Updated roleRedux:', this.props.roleRedux);  // <== Thêm dòng này
           this.setState({ roleRedux: this.props.roleRedux });
+        }
+
+        if(prevProps.listUsers !== this.props.listUsers){
+          this.setState({
+              email: '',
+              password: '',
+              firstName: '',
+              lastName: '',
+              phonenumber: '',
+              address: '',
+              gender: '',
+              positionId: '',
+              roleId: '',
+              avatar: '',
+          })
         }
       }
 
@@ -166,17 +184,40 @@
       let isValid = true;
       const arrCheck = ['email', 'password', 'firstName', 'lastName', 'address', 'phonenumber', 'gender', 'roleId', 'positionId'];
       const errors = { ...this.state.errors };
+      const fieldNames = {
+        email: 'Email',
+        password: 'Mật khẩu', 
+        firstName: 'Tên',
+        lastName: 'Họ',
+        address: 'Địa chỉ',
+        phonenumber: 'Số điện thoại',
+        gender: 'Giới tính',
+        roleId: 'Vai trò',
+        positionId: 'Chức danh'
+      };
+
+      // Reset all errors first
+      Object.keys(errors).forEach(key => {
+        errors[key] = '';
+      });
 
       for (let i = 0; i < arrCheck.length; i++) {
-        if (!this.state[arrCheck[i]]) {
+        const field = arrCheck[i];
+        if (!this.state[field]) {
           isValid = false;
-          errors[arrCheck[i]] = `Vui lòng nhập ${arrCheck[i]}`;
+          errors[field] = `Vui lòng ${field === 'gender' || field === 'roleId' || field === 'positionId' ? 'chọn' : 'nhập'} ${fieldNames[field]}`;
+        } else {
+          // Validate specific fields
+          this.validateField(field, this.state[field]);
         }
       }
 
       this.setState({ errors });
       if (!isValid) {
-        toast.error('Vui lòng điền đầy đủ các trường bắt buộc');
+        toast.error('Vui lòng điền đầy đủ và chính xác các trường bắt buộc!', {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
       return isValid;
     };
@@ -185,6 +226,11 @@
         console.log('Form state:', this.state); // ✅ Thêm dòng này
 
       if (!this.checkValidateInput()) return;
+
+      this.setState({
+        ...this.state,
+        isUserCreated: false
+      })
 
       this.setState({ isSaving: true });
 
@@ -206,26 +252,48 @@
 
         await this.props.createNewUser(formData);
 
-        this.setState({
-          email: '',
-          password: '',
-          firstName: '',
-          lastName: '',
-          phonenumber: '',
-          address: '',
-          gender: '',
-          positionId: '',
-          roleId: '',
-          avatarFile: null,
-          avatarPreview: '',
-          errors: {},
-          isSaving: false,
+        // Clear form after successful creation
+        this.clearForm();
+        
+        toast.success('🎉 Tạo người dùng thành công!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
         });
-        toast.success('Tạo người dùng thành công!');
       } catch (error) {
         this.setState({ isSaving: false });
-        toast.error('Không thể tạo người dùng');
+        toast.error('❌ Không thể tạo người dùng. Vui lòng thử lại!', {
+          position: "top-right",
+          autoClose: 4000,
+        });
+        console.error('Create user error:', error);
       }
+    };
+
+    clearForm = () => {
+      // Clean up avatar preview URL
+      if (this.state.avatarPreview) {
+        URL.revokeObjectURL(this.state.avatarPreview);
+      }
+      
+      this.setState({
+        email: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        phonenumber: '',
+        address: '',
+        gender: '',
+        positionId: '',
+        roleId: '',
+        avatarFile: null,
+        avatarPreview: '',
+        errors: {},
+        isSaving: false,
+      });
     };
 
 
@@ -238,44 +306,84 @@
       const { intl, language, genderRedux = [], roleRedux = [], positionRedux = [] } = this.props;
       const { email, password, firstName, lastName, phonenumber, address, gender, positionId, roleId, avatarPreview, showImageModal, isSaving, errors } = this.state;
 
-       console.log('Render genderRedux:', genderRedux);    // <== Thêm dòng này
-      console.log('Render positionRedux:', positionRedux);  // <== Thêm dòng này
-      console.log('Render roleRedux:', roleRedux);      // <== Thêm dòng này
-      console.log('Current state:', this.state);        // <== Thêm dòng này
-
-
       return (
         <div className="container-fluid py-4" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url("https://img4.thuthuatphanmem.vn/uploads/2021/01/10/hinh-anh-bac-si-rat-dep-khi-dang-phau-thuat_021528247.jpg")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          backgroundColor: '#f0f2f5',
-          minHeight: '90vh'
+          background: 'linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 50%, #ffffff 100%)',
+          minHeight: '100vh',
+          position: 'relative'
         }}>
-          <div className="container">
-            <div className="text-center mb-2 p-2">
-              <div className="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-lg mb-3" style={{ width: '50px', height: '50px' }}>
-                <i className="fas fa-user-cog text-primary fs-3"></i>
+          {/* Medical Theme Background Pattern */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'url("data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%2300a8cc" fill-opacity="0.05"%3E%3Cpath d="M20 0v40M0 20h40M20 10a10 10 0 0 1 0 20 10 10 0 0 1 0-20z"/%3E%3C/g%3E%3C/svg%3E")',
+            opacity: 0.4
+          }}></div>
+          
+          <div className="container position-relative">
+            <div className="text-center mb-3 p-2" style={{ marginTop: '3.4rem' }}>
+              <div className="d-inline-flex align-items-center justify-content-center rounded-circle shadow-lg mb-3" style={{ 
+                width: '50px', 
+                height: '50px',
+                background: 'linear-gradient(135deg, #00a8cc 0%, #0288a7 100%)',
+                border: '3px solid #ffffff'
+              }}>
+                <i className="fas fa-user-md text-white fs-2"></i>
               </div>
-              <h2 className="fw-bold text-white mb-2" style={{ textShadow: '1px 1px 8px rgba(0,0,0,0.6)' }}>
-                <FormattedMessage id="manage-user.title" defaultMessage="Thêm mới người dùng" />
+              <h2 className="fw-bold mb-2" style={{ 
+                color: '#0288a7',
+                textShadow: '1px 1px 3px rgba(0,0,0,0.1)'
+              }}>
+                <FormattedMessage id="manage-user.title" defaultMessage="Quản lý người dùng hệ thống" />
               </h2>
-              <div className="mx-auto rounded-pill" style={{ width: '150px', height: '3px', background: 'linear-gradient(90deg, #fff, rgba(255,255,255,0.8))' }}></div>
+              <div className="mx-auto rounded-pill" style={{ 
+                width: '180px', 
+                height: '3px', 
+                background: 'linear-gradient(90deg, #00a8cc, #0288a7, #00a8cc)' 
+              }}></div>
             </div>
 
             <div className="row justify-content-center">
-              <div className="col-xl-10 col-lg-8">
-                <div className="card shadow-lg border-0" style={{ borderRadius: '20px', background: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.15)' }}>
+              <div className="col-xl-12 col-lg-12">
+                <div className="card shadow-lg border-0" style={{ 
+                  borderRadius: '20px', 
+                  background: 'rgba(255, 255, 255, 0.95)', 
+                  backdropFilter: 'blur(20px)', 
+                  border: '1px solid rgba(0, 168, 204, 0.1)',
+                  boxShadow: '0 10px 40px rgba(0, 168, 204, 0.1)'
+                }}>
                   <div className="card-body p-5">
-                    <form onSubmit={this.handleSubmit}>
+                    {/* Medical Theme Styles */}
+                    <style>{`
+                      .medical-form .form-control,
+                      .medical-form .form-select {
+                        backgroundColor: rgba(255, 255, 255, 0.9) !important;
+                        borderColor: rgba(0, 168, 204, 0.3) !important;
+                        boxShadow: 0 2px 8px rgba(0, 168, 204, 0.1) !important;
+                      }
+                      .medical-form .form-control:focus,
+                      .medical-form .form-select:focus {
+                        borderColor: #00a8cc !important;
+                        boxShadow: 0 0 0 0.2rem rgba(0, 168, 204, 0.25) !important;
+                      }
+                      .medical-form .form-floating label {
+                        color: #666 !important;
+                      }
+                      .medical-form .form-floating label i {
+                        color: #00a8cc !important;
+                      }
+                    `}</style>
+                    
+                    <form onSubmit={this.handleSubmit} className="medical-form">
                       <div className="row g-4">
                         <div className="col-md-9">
                           {/* Login Information */}
                           <div className="mb-4">
-                            <h5 className="text-primary fw-bold border-bottom pb-2 d-flex align-items-center gap-2">
-                              <i className="fas fa-key"></i>
+                            <h5 className="fw-bold border-bottom pb-2 d-flex align-items-center gap-2" style={{ color: '#0288a7' }}>
+                              <i className="fas fa-key" style={{ color: '#00a8cc' }}></i>
                               <FormattedMessage id="manage-user.form.loginInfo" defaultMessage="Thông tin đăng nhập" />
                             </h5>
                             <div className="row g-3">
@@ -286,13 +394,17 @@
                                     className={`form-control border-2 rounded-4 shadow-sm ${errors.email ? 'border-danger' : ''}`}
                                     id="email"
                                     placeholder="Email"
-                                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: 'rgba(13, 110, 253, 0.3)' }}
+                                    style={{ 
+                                      backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+                                      borderColor: 'rgba(0, 168, 204, 0.3)',
+                                      boxShadow: '0 2px 8px rgba(0, 168, 204, 0.1)'
+                                    }}
                                     value={email}
                                     onChange={(event) => this.onChangeInput(event, 'email')}
                                     required
                                   />
                                   <label htmlFor="email" className="text-muted">
-                                    <i className="fas fa-envelope me-2"></i>
+                                    <i className="fas fa-envelope me-2" style={{ color: '#00a8cc' }}></i>
                                     <FormattedMessage id="manage-user.form.email" defaultMessage="Email" />
                                   </label>
                                   {errors.email && <div className="text-danger small mt-1">{errors.email}</div>}
@@ -322,8 +434,8 @@
 
                           {/* Personal Information */}
                           <div className="mb-4">
-                            <h5 className="text-primary fw-bold border-bottom pb-2 d-flex align-items-center gap-2">
-                              <i className="fas fa-user"></i>
+                            <h5 className="fw-bold border-bottom pb-2 d-flex align-items-center gap-2" style={{ color: '#0288a7' }}>
+                              <i className="fas fa-user" style={{ color: '#00a8cc' }}></i>
                               <FormattedMessage id="manage-user.form.personalInfo" defaultMessage="Thông tin cá nhân" />
                             </h5>
                             <div className="row g-3">
@@ -379,7 +491,7 @@
                                   />
                                   <label htmlFor="phonenumber" className="text-muted">
                                     <i className="fas fa-phone me-2"></i>
-                                    <FormattedMessage id="manage-user.form.phonenumber" defaultMessage="Số điện thoại" />
+                                    <FormattedMessage id="manage-user.form.phoneNumber" defaultMessage="Số điện thoại" />
                                   </label>
                                   {errors.phonenumber && <div className="text-danger small mt-1">{errors.phonenumber}</div>}
                                 </div>
@@ -408,8 +520,8 @@
 
                           {/* System Information */}
                           <div className="mb-4">
-                            <h5 className="text-primary fw-bold border-bottom pb-2 d-flex align-items-center gap-2">
-                              <i className="fas fa-cog"></i>
+                            <h5 className="fw-bold border-bottom pb-2 d-flex align-items-center gap-2" style={{ color: '#0288a7' }}>
+                              <i className="fas fa-cog" style={{ color: '#00a8cc' }}></i>
                               <FormattedMessage id="manage-user.form.systemInfo" defaultMessage="Thông tin hệ thống" />
                             </h5>
                             <div className="row g-3">
@@ -422,10 +534,10 @@
                                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: 'rgba(13, 110, 253, 0.3)' }}
                                     required
                                   >
-                                    <option value="">
-                                      <FormattedMessage id="manage-user.form.genderOptions.choose" defaultMessage="Chọn giới tính" />
+                                    <option value="" disabled>
+                                      <FormattedMessage id="manage-user.form.selectGender" defaultMessage="Chọn giới tính" />
                                     </option>
-                                    {genderRedux.map((item) =>
+                                    {Array.isArray(genderRedux) && genderRedux.map((item) =>
                                       item && item.key ? (
                                         <option key={item.key} value={item.key}>
                                           {language === 'en' ? item.valueEn : item.valueVi}
@@ -450,10 +562,10 @@
                                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: 'rgba(13, 110, 253, 0.3)' }}
                                     required
                                   >
-                                    <option value="">
-                                      <FormattedMessage id="manage-user.form.positionOptions.choose" defaultMessage="Chọn chức danh" />
+                                    <option value="" disabled>
+                                      <FormattedMessage id="manage-user.form.selectPosition" defaultMessage="Chọn chức danh" />
                                     </option>
-                                    {positionRedux.map((item) => (
+                                    {Array.isArray(positionRedux) && positionRedux.map((item) => (
                                       <option key={item.key} value={item.key}>
                                         {language === 'en' ? item.valueEn : item.valueVi}
                                       </option>
@@ -475,10 +587,10 @@
                                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: 'rgba(13, 110, 253, 0.3)' }}
                                     required
                                   >
-                                    <option value="">
-                                      <FormattedMessage id="manage-user.form.roleOptions.choose" defaultMessage="Chọn vai trò" />
+                                    <option value="" disabled>
+                                      <FormattedMessage id="manage-user.form.selectRole" defaultMessage="Chọn vai trò" />
                                     </option>
-                                    {roleRedux.map((item) => (
+                                    {Array.isArray(roleRedux) && roleRedux.map((item) => (
                                       <option key={item.key} value={item.key}>
                                         {language === 'en' ? item.valueEn : item.valueVi}
                                       </option>
@@ -498,8 +610,8 @@
                         {/* Avatar and Buttons */}
                         <div className="col-md-3">
                           <div className="mb-4">
-                            <h5 className="text-primary fw-bold border-bottom pb-2 d-flex align-items-center gap-2">
-                              <i className="fas fa-image"></i>
+                            <h5 className="fw-bold border-bottom pb-2 d-flex align-items-center gap-2" style={{ color: '#0288a7' }}>
+                              <i className="fas fa-image" style={{ color: '#00a8cc' }}></i>
                               <FormattedMessage id="manage-user.form.avatarSection" defaultMessage="Ảnh đại diện" />
                             </h5>
                             <div className="text-center">
@@ -521,15 +633,22 @@
                                 </div>
                               </div>
                               <div
-                                className="border border-dashed border-primary rounded-4 p-3 text-center mt-3"
-                                style={{ cursor: 'pointer' }}
+                                className="border border-dashed rounded-4 p-3 text-center mt-3"
+                                style={{ 
+                                  cursor: 'pointer',
+                                  borderColor: '#00a8cc !important',
+                                  backgroundColor: 'rgba(0, 168, 204, 0.05)'
+                                }}
                                 onDragOver={this.handleDragOver}
                                 onDragLeave={this.handleDragLeave}
                                 onDrop={this.handleDrop}
                                 onClick={() => document.getElementById('fileInput').click()}
                               >
-                                <i className="fas fa-cloud-upload-alt text-primary mb-2" style={{ fontSize: '2.2rem' }}></i>
-                                <h6 className="text-primary mb-2">
+                                <i className="fas fa-cloud-upload-alt mb-2" style={{ 
+                                  fontSize: '2.5rem',
+                                  color: '#00a8cc'
+                                }}></i>
+                                <h6 className="mb-2" style={{ color: '#0288a7' }}>
                                   <FormattedMessage id="manage-user.form.dragImageHere" defaultMessage="Kéo thả ảnh vào đây hoặc nhấp để tải lên" />
                                 </h6>
                                 <input
@@ -547,23 +666,41 @@
                           <div className="text-center">
                             <button
                               type="submit"
-                              className="btn btn-primary btn-lg w-100 py-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase mb-3"
+                              className="btn btn-lg w-100 py-3 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 fw-semibold text-uppercase mb-3"
+                              style={{
+                                background: 'linear-gradient(135deg, #00a8cc 0%, #0288a7 100%)',
+                                border: 'none',
+                                color: 'white',
+                                boxShadow: '0 4px 15px rgba(0, 168, 204, 0.3)'
+                              }}
                               disabled={isSaving}
                             >
                               {isSaving ? (
-                                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <>
+                                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                  <FormattedMessage id="manage-user.form.saving" defaultMessage="Đang lưu..." />
+                                </>
                               ) : (
-                                <i className="fas fa-save fs-5 me-2"></i>
+                                <>
+                                  <i className="fas fa-save fs-5 me-2"></i>
+                                  <FormattedMessage id="manage-user.form.saveButton" defaultMessage="Lưu thông tin" />
+                                </>
                               )}
-                              <FormattedMessage id="manage-user.form.saveButton" defaultMessage="Lưu" />
                             </button>
+                            
                             <button
                               type="button"
-                              className="btn btn-outline-secondary btn-lg w-100 py-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 fw-semibold"
-                              onClick={() => window.history.back()}
+                              className="btn w-100 py-2 rounded-3 d-flex align-items-center justify-content-center gap-2"
+                              style={{
+                                background: 'rgba(0, 168, 204, 0.1)',
+                                border: '2px solid #00a8cc',
+                                color: '#0288a7'
+                              }}
+                              onClick={this.clearForm}
+                              disabled={isSaving}
                             >
-                              <i className="fas fa-times fs-5 me-2"></i>
-                              <FormattedMessage id="manage-user.form.cancel" defaultMessage="Hủy" />
+                              <i className="fas fa-undo-alt me-2"></i>
+                              <FormattedMessage id="manage-user.form.clearButton" defaultMessage="Xóa form" />
                             </button>
                           </div>
                         </div>
@@ -572,7 +709,10 @@
                   </div>
                 </div>
               </div>
+                    <TableManageUser/>
             </div>
+
+     
 
             {showImageModal && avatarPreview && (
               <div
@@ -613,6 +753,7 @@
               </div>
             )}
           </div>
+           
         </div>
       );
     }
@@ -623,6 +764,8 @@
       genderRedux: state.admin.genders,
       positionRedux: state.admin.positions,
       roleRedux: state.admin.roles,
+      isLoadingGender: state.admin.isLoadingGender,
+      listUsers: state.admin.users
     
   });
 

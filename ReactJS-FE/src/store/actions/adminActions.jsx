@@ -1,5 +1,6 @@
 import actionTypes from './actionTypes';
-import { getAllCodeService, createNewUserService } from '../../services/userService';
+import { getAllCodeService, createNewUserService, getAllUsers, deleteUserService } from '../../services/userService';
+import { toast } from 'react-toastify';
 
 export const adminLoginSuccess = (adminInfo) => ({
     type: actionTypes.ADMIN_LOGIN_SUCCESS,
@@ -116,9 +117,11 @@ export const createUserStart = () => ({
 });
 
 // Create new user SUCCESS action
-export const saveUserSuccess = () => ({
+export const saveUserSuccess = (newUser) => ({
     type: actionTypes.CREATE_USER_SUCCESS,
+    newUser
 });
+
 
 // Create new user FAIL action
 export const saveUserFailed = (errorMessage) => ({
@@ -127,29 +130,85 @@ export const saveUserFailed = (errorMessage) => ({
 });
 
 // Create new user THUNK
+export const createNewUser = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await createNewUserService(data);
 
-    export const createNewUser = (data) => {
-        return async (dispatch) => {
-            try {
-            dispatch({ type: actionTypes.CREATE_USER_START });
+      console.log('hoidanit check create user redux:', res);
 
-            let res = await createNewUserService(data);
+      if (res && res.errCode === 0) {
+        dispatch(saveUserSuccess()); // hoặc truyền res.user nếu bạn có
+        dispatch(fetchAllUsersStart()); // ✅ đúng cú pháp
+      } else {
+        dispatch(saveUserFailed(res?.errMessage || 'Failed to create user'));
+      }
+    } catch (e) {
+      dispatch(saveUserFailed(e.message || 'Failed to create user'));
+      console.log('saveUserFailed error', e);
+    }
+  };
+};
 
-            if (res?.data?.errCode === 0) {
-                dispatch({ type: actionTypes.CREATE_USER_SUCCESS });
-            } else {
-                dispatch({
-                type: actionTypes.CREATE_USER_FAIL,
-                error: res?.data?.errMessage || 'Failed to create user',
-                });
-            }
-            } catch (error) {
-            dispatch({
-                type: actionTypes.CREATE_USER_FAIL,
-                error: error.message || 'Failed to create user',
-            });
-            }
-        };
-        };
+// thunk action
+export const fetchAllUsersStart = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: actionTypes.FETCH_ALL_USERS_START });
+      let res = await getAllUsers("ALL");
+
+      if (res && res.data && res.data.errCode === 0) {
+
+        // Lấy đúng mảng user trong res.data.users.users
+        dispatch(fetchAllUsersSuccess(res.data.users.users || []));
+      } else {
+        dispatch(fetchAllUsersFail(res?.data?.errMessage || 'Failed to fetch all users'));
+      }
+    } catch (e) {
+      dispatch(fetchAllUsersFail(e.message || 'Failed to fetch all users'));
+      console.log('fetchAllUsersFailed error', e);
+    }
+  };
+};
+
+
+// success action 
+export const fetchAllUsersSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+    users: data, // usually an array
+});
+
+// fail action — sửa lại để nhận lỗi
+export const fetchAllUsersFail = (error) => ({
+    type: actionTypes.FETCH_ALL_USERS_FAIL,
+    error,
+});
+export const deleteAUser = (userId) => {
+  return async (dispatch) => {
+    dispatch(deleteUserSuccess(userId)); // Optimistic update
+    
+    try {
+      let res = await deleteUserService(userId);
+      if (res && res.errCode !== 0) {
+        dispatch(deleteUserFailed(res?.errMessage));
+        // Optionally dispatch action to restore the user
+      }
+    } catch (error) {
+      dispatch(deleteUserFailed(error.message));
+      // Optionally dispatch action to restore the user
+    }
+  };
+};
+
+export const deleteUserSuccess = (userId) => ({
+  type: actionTypes.DELETE_USER_SUCCESS,
+  userId,
+});
+
+
+export const deleteUserFailed = () => ({
+  type: actionTypes.DELETE_USER_FAIL,
+});
+
 
 
